@@ -1,5 +1,7 @@
 import { async } from "regenerator-runtime";
+
 import { AJAX } from "./helpers.js";
+import { API_URL } from "./config.js";
 
 export const state = {
   recipe: {},
@@ -22,9 +24,7 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function () {
   try {
-    const data = await AJAX(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
-    );
+    const data = await AJAX(`${API_URL}5ed6604591c37cdc054bc886`);
     state.recipe = createRecipeObject(data);
 
     console.log(state.recipe);
