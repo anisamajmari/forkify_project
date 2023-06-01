@@ -27,5 +27,7 @@ const controlSearch = async function () {
   }
 };
 
-const buton = document.querySelector(".search");
-buton.addEventListener("submit", controlSearch);
+const init = function () {
+  searchView.addHandlerSearch(controlSearch);
+};
+init();

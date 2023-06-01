@@ -600,8 +600,10 @@ const controlSearch = async function() {
         console.log(err);
     }
 };
-const buton = document.querySelector(".search");
-buton.addEventListener("submit", controlSearch);
+const init = function() {
+    (0, _searchViewJsDefault.default).addHandlerSearch(controlSearch);
+};
+init();
 
 },{"regenerator-runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
@@ -1735,6 +1737,12 @@ class SearchView {
     }
     _clearSearchField() {
         this._parentElement.querySelector(".search__field").value = "";
+    }
+    addHandlerSearch(handler) {
+        this._parentElement.addEventListener("submit", function(e) {
+            e.preventDefault();
+            handler();
+        });
     }
 }
 exports.default = new SearchView();
