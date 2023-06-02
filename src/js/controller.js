@@ -11,6 +11,8 @@ const controlRecipe = async function () {
     const id = window.location.hash.slice(1);
     if (!id) return;
 
+    recipeView.renderSpinner();
+
     await model.loadRecipe(id);
 
     recipeView.render(model.state.recipe);
@@ -22,6 +24,8 @@ controlRecipe();
 
 const controlSearch = async function () {
   try {
+    resultsView.renderSpinner();
+
     // Get query
     const query = searchView.getQuery();
     if (!query) return;
