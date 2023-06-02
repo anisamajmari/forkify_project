@@ -11,6 +11,7 @@ export const state = {
     resultsPerPage: 10,
     page: 1,
   },
+  bookmarks: [],
 };
 
 const createRecipeObject = function (data) {
@@ -74,4 +75,14 @@ export const updateServings = function (newServings) {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
   state.recipe.servings = newServings;
+};
+
+export const addBookmark = function (recipe) {
+  //Add bookmark
+  state.bookmarks.push(recipe);
+
+  //Mark current recipe as bookmarked
+  if (recipe.id === state.recipe.id) {
+    state.recipe.bookmarked = true;
+  }
 };
