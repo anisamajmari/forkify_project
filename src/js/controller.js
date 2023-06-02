@@ -1,10 +1,10 @@
-import { async } from "regenerator-runtime";
+import { async } from 'regenerator-runtime';
 
-import * as model from "./model.js";
-import recipeView from "./views/recipeView.js";
-import resultsView from "./views/resultsView.js";
-import searchView from "./views/searchView.js";
-import paginationView from "./views/paginationView.js";
+import * as model from './model.js';
+import recipeView from './views/recipeView.js';
+import resultsView from './views/resultsView.js';
+import searchView from './views/searchView.js';
+import paginationView from './views/paginationView.js';
 
 const controlRecipe = async function () {
   try {
@@ -54,15 +54,21 @@ const controlPagination = function (gotoPage) {
 const controlServings = function (newServings) {
   //Update the recipe servings(in state)
   model.updateServings(newServings);
-  console.log("hello");
+  console.log('hello');
   //Update the recipe view
   recipeView.render(model.state.recipe);
 };
 
 const controlAddBookmark = function () {
-  //Add bookmark
-  model.addBookmark(model.state.recipe);
-  console.log(model.state.bookmarks);
+  //Add/Delete bookmark
+  if (!model.state.recipe.bookmarked) {
+    model.addBookmark(model.state.recipe);
+  } else {
+    model.deleteBookmark(model.state.recipe.id);
+  }
+
+  //Update recipe view
+  recipeView.render(model.state.recipe);
 };
 
 const init = function () {
