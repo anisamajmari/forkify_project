@@ -5,6 +5,12 @@ import { Fraction } from "fractional";
 class RecipeView extends View {
   _parentElement = document.querySelector(".recipe");
 
+  addHandlerRender(handler) {
+    ["hashchange", "load"].forEach((ev) =>
+      window.addEventListener(ev, handler)
+    );
+  }
+
   _generateMarkup() {
     return `
     <figure class="recipe__fig">
