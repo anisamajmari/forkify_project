@@ -1,12 +1,12 @@
-import { async } from 'regenerator-runtime';
+import { async } from "regenerator-runtime";
 
-import { AJAX } from './helpers.js';
-import { API_URL } from './config.js';
+import { AJAX } from "./helpers.js";
+import { API_URL } from "./config.js";
 
 export const state = {
   recipe: {},
   search: {
-    query: '',
+    query: "",
     results: [],
     resultsPerPage: 10,
     page: 1,
@@ -34,7 +34,11 @@ export const loadRecipe = async function (id) {
     const data = await AJAX(`${API_URL}${id}`);
     state.recipe = createRecipeObject(data);
 
-    console.log(state.recipe);
+    if (state.bookmarks.some((bookmark) => bookmark.id === id)) {
+      state.recipe.bookmarked = true;
+    } else {
+      state.recipe.bookmarked = false;
+    }
   } catch (err) {
     console.log(`${err}`);
   }
@@ -45,9 +49,8 @@ export const loadSearchResults = async function (query) {
     state.search.query = query;
 
     const data = await AJAX(`${API_URL}?search=${query}`);
-    // console.log(data);
 
-    state.search.results = data.data.recipes.map(rec => {
+    state.search.results = data.data.recipes.map((rec) => {
       return {
         id: rec.id,
         title: rec.title,
@@ -55,7 +58,6 @@ export const loadSearchResults = async function (query) {
         image: rec.image_url,
       };
     });
-    console.log(state.search.results);
   } catch (err) {
     console.log(err);
   }
@@ -71,14 +73,14 @@ export const getSearchResultsPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
-  state.recipe.ingredients.forEach(ing => {
+  state.recipe.ingredients.forEach((ing) => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
   state.recipe.servings = newServings;
 };
 
 const presistBookmarks = function () {
-  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
 };
 
 export const addBookmark = function (recipe) {
@@ -94,7 +96,7 @@ export const addBookmark = function (recipe) {
 
 export const deleteBookmark = function (id) {
   //Delete bookmark
-  const index = state.bookmarks.findIndex(el => el.id === id);
+  const index = state.bookmarks.findIndex((el) => el.id === id);
   state.bookmarks.splice(index, 1);
 
   //Mark current recipe as not bookmarked
@@ -105,7 +107,7 @@ export const deleteBookmark = function (id) {
 };
 
 const init = function () {
-  const storage = localStorage.getItem('bookmarks');
+  const storage = localStorage.getItem("bookmarks");
   if (storage) {
     state.bookmarks = JSON.parse(storage);
   }
@@ -113,6 +115,6 @@ const init = function () {
 init();
 
 const clearBookmarks = function () {
-  localStorage.clear('bookmarks');
+  localStorage.clear("bookmarks");
 };
 // clearBookmarks();

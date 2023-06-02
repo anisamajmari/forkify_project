@@ -19,7 +19,6 @@ export const AJAX = async function (url) {
 
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 
-    console.log(data);
     return data;
   } catch (err) {
     console.log(`${err}`);
