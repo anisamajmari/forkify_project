@@ -5,6 +5,7 @@ import recipeView from './views/recipeView.js';
 import resultsView from './views/resultsView.js';
 import searchView from './views/searchView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 const controlRecipe = async function () {
   try {
@@ -13,6 +14,10 @@ const controlRecipe = async function () {
 
     recipeView.renderSpinner();
 
+    resultsView.render(model.getSearchResultsPage());
+
+    bookmarksView.render(model.state.bookmarks);
+
     await model.loadRecipe(id);
 
     recipeView.render(model.state.recipe);
@@ -20,7 +25,6 @@ const controlRecipe = async function () {
     console.log(`${err}`);
   }
 };
-controlRecipe();
 
 const controlSearch = async function () {
   try {
@@ -54,7 +58,7 @@ const controlPagination = function (gotoPage) {
 const controlServings = function (newServings) {
   //Update the recipe servings(in state)
   model.updateServings(newServings);
-  console.log('hello');
+
   //Update the recipe view
   recipeView.render(model.state.recipe);
 };
@@ -69,9 +73,17 @@ const controlAddBookmark = function () {
 
   //Update recipe view
   recipeView.render(model.state.recipe);
+
+  //Render bookmarks
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {
+  bookmarksView.addHandlerRender(controlBookmarks);
   searchView.addHandlerSearch(controlSearch);
   recipeView.addHandlerRender(controlRecipe);
   paginationView.addHandlerClick(controlPagination);
