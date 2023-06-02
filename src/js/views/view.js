@@ -1,6 +1,6 @@
-import { mark } from 'regenerator-runtime';
+import { mark } from "regenerator-runtime";
 
-import icons from 'url:../../img/icons.svg';
+import icons from "url:../../img/icons.svg";
 
 export default class View {
   render(data, render = true) {
@@ -12,7 +12,7 @@ export default class View {
     if (!render) return markup;
 
     this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
   renderSpinner() {
@@ -25,10 +25,10 @@ export default class View {
     `;
 
     this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
   _clear() {
-    this._parentElement.innerHTML = '';
+    this._parentElement.innerHTML = "";
   }
 }
